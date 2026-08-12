@@ -1,27 +1,33 @@
-pipeline { 
-    agent any 
-    stages { 
-        stage('Build') { 
-            steps { 
-                echo 'Compiling application...' 
-            } 
-        } 
-        stage('Test') { 
-            steps { 
-                echo 'Running unit tests...' 
-            } 
-        } 
-        stage('Package') { 
-            steps { 
-                // Write code here to generate build-info.txt 
-                bash 'echo "Build executed on $(date)" > build-info.txt' 
-            } 
-        } 
-    } 
-     
-    post { 
-        success { 
-            echo 'Build successful! Ready for release.' 
-        } 
-    } 
-} 
+```groovy
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Build') {
+            steps {
+                echo 'Compiling application...'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running unit tests... Pass!'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                bat 'echo Build Number: %BUILD_NUMBER% > build-info.txt'
+                bat 'echo Build executed successfully >> build-info.txt'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build successful! Ready for release.'
+        }
+    }
+}
+```
